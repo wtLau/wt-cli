@@ -1,0 +1,8 @@
+[aliases]
+notes = "cd ~/Documents/wtlau-obsidian/ && nv ."
+arc = "cd ~/Documents/Codebases/arc/"
+core = "cd ~/Documents/Codebases/arc/core-ui/ && nv ."
+content = "cd ~/Documents/Codebases/arc/content-pages/ && nv ."
+swag = "cd ~/Documents/Codebases/arc/web-api-gateway/ && nv ."
+arcnpm = "source ~/.aws/switch-aws-profile.sh prod"
+cal = "cal -A 2"
