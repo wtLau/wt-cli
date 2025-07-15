@@ -1,22 +1,9 @@
-use clap::{Parser, Subcommand};
+mod cli;
+
+use clap::Parser;
+use cli::{Cli, Commands};
 use serde::Deserialize;
 use std::{collections::HashMap, fs, process::Command};
-
-#[derive(Parser)]
-#[command(name = "wt", about = "Brian's custom CLI shortcuts")]
-struct Cli {
-    #[command(subcommand)]
-    command: Option<Commands>,
-}
-
-#[derive(Subcommand)]
-enum Commands {
-    /// Show available commands
-    List,
-    /// Run a shortcut command (e.g., `wt notes`)
-    #[command(external_subcommand)]
-    Run(Vec<String>),
-}
 
 #[derive(Debug, Deserialize)]
 struct Config {
@@ -63,4 +50,3 @@ fn main() {
         }
     }
 }
-
