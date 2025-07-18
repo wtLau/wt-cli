@@ -2,6 +2,7 @@ mod cli;
 
 use clap::Parser;
 use cli::{Cli, Commands};
+use dirs::home_dir;
 use serde::Deserialize;
 use std::{collections::HashMap, fs, process::Command};
 
@@ -11,7 +12,9 @@ struct Config {
 }
 
 fn load_aliases() -> HashMap<String, String> {
-    let content = fs::read_to_string("config/aliases.toml").expect("Failed to read aliases.toml");
+    let mut path = home_dir().expect("Failed to get home directory");
+    path.push(".config/wt-cli/aliases.toml");
+    let content = fs::read_to_string(path).expect("Failed to read aliases.toml");
     let config: Config = toml::from_str(&content).expect("Failed to parse aliases.toml");
     config.aliases
 }
