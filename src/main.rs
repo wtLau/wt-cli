@@ -13,7 +13,7 @@ struct Config {
 
 fn load_aliases() -> HashMap<String, String> {
     let mut path = home_dir().expect("Failed to get home directory");
-    path.push(".config/wt-cli/aliases.toml");
+    path.push("dotfile/cli-aliases.toml");
     let content = fs::read_to_string(path).expect("Failed to read aliases.toml");
     let config: Config = toml::from_str(&content).expect("Failed to parse aliases.toml");
     config.aliases
