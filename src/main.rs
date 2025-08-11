@@ -3,7 +3,9 @@ mod cli;
 use clap::Parser;
 use cli::{Cli, Commands};
 use dirs::home_dir;
-use serde::Deserialize;
+use dotenv::dotenv;
+use reqwest::header::{ACCEPT, AUTHORIZATION, USER_AGENT};
+use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs, process::Command};
 
 #[derive(Debug, Deserialize)]
@@ -19,9 +21,60 @@ fn load_aliases() -> HashMap<String, String> {
     config.aliases
 }
 
-fn main() {
+#[derive(Debug, Serialize, Deserialize)]
+struct PullRequest {}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Issue {
+    number: usize,
+    title: String,
+    pull_request: Option<PullRequest>,
+}
+
+async fn get_issues() -> Vec<Issue> {
+    let token = std::env::var("GITHUB_PAT").expect("Expected GITHUB_PAT in env file");
+    let request_url = format!(
+        "https://api.github.com/repos/{owner}/{repo}/issues?state=open&page=1&per_page=100",
+        owner = "wtLau",
+        repo = "wt-cli",
+    );
+    let client = reqwest::Client::new();
+    let response = client
+        .get(&request_url)
+        .header(AUTHORIZATION, format!("Bearer {token}", token = token))
+        .header(USER_AGENT, "rust web-api")
+        .header(ACCEPT, "application/vnd.github+json")
+        .send()
+        .await;
+
+    let response = match response {
+        Ok(res) if res.status().is_success() => res,
+        _ => return Vec::new(),
+    };
+
+    let issues = response
+        .json::<Vec<Issue>>()
+        .await
+        .expect("Something went wrong while parsing")
+        .into_iter()
+        .filter(|issue| issue.pull_request.is_none())
+        .collect::<Vec<_>>();
+
+    issues
+}
+
+#[tokio::main]
+async fn main() {
+    dotenv().ok();
     let cli = Cli::parse();
     let aliases = load_aliases();
+    let issues = get_issues().await;
+
+    println!("{:?}", issues);
+
+    // for issue in &issues {
+    //     let reactions = get_issue_reactions(issue);
+    // }
 
     match cli.command {
         Some(Commands::List) => {
