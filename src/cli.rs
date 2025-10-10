@@ -7,6 +7,7 @@ use clap::{Parser, Subcommand};
     long_about = "Brian's custom CLI shortcuts",
     version
 )]
+
 pub struct Cli {
     #[command(subcommand)]
     pub command: Option<Commands>,
@@ -16,9 +17,16 @@ pub struct Cli {
 pub enum Commands {
     /// Show available commands
     List,
+
     /// Run a shortcut command (e.g., `wt notes`)
     #[command(external_subcommand)]
     Run(Vec<String>),
+
+    /// Change directory to an alias (e.g., `wt cd arc`)
+    Cd {
+        /// Directory alias
+        dir: String,
+    },
 }
 
 #[cfg(test)]
