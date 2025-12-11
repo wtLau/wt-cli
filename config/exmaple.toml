@@ -1,29 +1,3 @@
 [aliases]
 notes = "~/Documents/wtlau-obsidian/"
-cli = "~/Documents/Codebases/wt-cli/"
-arc = "~/Documents/Codebases/arc/"
-core = "~/Documents/Codebases/arc/core-ui/"
-content = "~/Documents/Codebases/arc/content-pages/"
-swag = "~/Documents/Codebases/arc/web-api-gateway"
-dam = "~/Documents/Codebases/arc/dam-connector"
-cms = "~/Documents/Codebases/arc/sanity-cms"
-query = "~/Documents/Codebases/arc/sanity-content"
-nav = "~/Documents/Codebases/arc/arcteryx-navigation"
-arcnpm = "source ~/.aws/switch-aws-profile.sh prod"
-switch = "~/Documents/Codebases/arc/switch-adapter/"
-cal = "cal -A 2"
-
-# Directory
-
-# Filepath
-code = "~/Documents/Codebases/"
-
-# Configs
-# wt-cli Config
-wc = "~/dotfile/cli-aliases.toml"
-# ZSH Config
-zc = "~/dotfile/"
-# NeoVim Config
-nc = "~/.config/nvim/lua"
-# Oh My Zsh 
-ohmyzsh = "~/.oh-my-zsh"
+demo = "~/Documents/demo/"
